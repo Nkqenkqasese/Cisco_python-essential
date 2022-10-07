@@ -8,37 +8,20 @@
 #the board's appearance should be exactly the same as the one presented in the example.
 #implement the functions defined for you in the editor.
 
+import math
 from random import randrange
 
-row_1=[1,2,3]
-row_2=[4,'X',6]
-row_3=[7,8,9]
+board=[[1,2,3],[4,'X',6],[7,8,9]]
 empty_fields=[1,2,3,4,6,7,8,9]
 
-def display_board(line_1,line_2,line_3):
-    for i in range(4):
-        if i % 4 == 0:
-            print("+-------+-------+-------+")
-        elif i % 2 ==1:
-            print("|       |       |       |")
-        else:
-            print("|  ",line_1[i-2]," ","|  ",line_1[i-1]," ","|  ",line_1[i],"  |")
-
-    for i in range(4):
-        if i % 4 == 0:
-            print("+-------+-------+-------+")
-        elif i % 2 ==1:
-            print("|       |       |       |")
-        else:
-            print("|  ",line_2[i-2]," ","|  ",line_2[i-1]," ","|  ",line_2[i],"  |")
-
-    for i in range(5):
-        if i % 4 == 0:
-            print("+-------+-------+-------+")
-        elif i % 2 ==1:
-            print("|       |       |       |")
-        else:
-            print("|  ",line_3[i-2]," ","|  ",line_3[i-1]," ","|  ",line_3[i],"  |")
+def display_board(matrix):
+    for i in range(13):
+            if i % 4 == 0:
+                print("+-------+-------+-------+")
+            elif i % 2 ==1:
+                print("|       |       |       |")
+            else:
+                print("|  ",matrix[math.floor(i/4-1/2)][0]," ","|  ",matrix[math.floor(i/4-1/2)][1]," ","|  ",matrix[math.floor(i/4-1/2)][2],"  |")
 
 def update_empty_fields(move):
     for i in range(len(empty_fields)):
@@ -47,30 +30,24 @@ def update_empty_fields(move):
         break 
     del empty_fields[j]
 
-def victory_for(row_1,row_2,row_3,sign):
+def victory_for(matrix,sign):
     # The function analyzes the board's status in order to check if 
     # the player using 'O's or 'X's has won the game
 
-    if row_1==[sign,sign,sign]: #test if 1=2=3
-        return True
-
-    elif row_2==[sign,sign,sign]: #test if 4=5=6
-        return True
-
-    elif row_3==[sign,sign,sign]: #test if 7=8=9
-        return True
-
-    elif row_1[0] == row_2[0] and row_1[0] == row_3[0]:
+    for i in range(3):
+        if matrix[i]==[sign,sign,sign]: 
+            return True
+    
+    if matrix[0][0] == matrix[1][0] and matrix[0][0] == matrix[2][0]:
         return True
     
-    elif row_1[1] == row_2[1] and row_1[1] == row_3[1]:
+    elif matrix[0][1] == matrix[1][1] and matrix[0][1] == matrix[2][1]:
         return True
     
-    elif row_1[2] == row_2[2] and row_1[2] == row_3[2]:
+    elif matrix[0][2] == matrix[1][2] and matrix[0][2] == matrix[2][2]:
         return True
         
-
-    elif row_1[0] == row_3[2] or row_1[2] == row_3[0]:
+    elif matrix[0][0] == matrix[2][2] or matrix[0][2] == matrix[2][0]:
         return True
 
     elif len(empty_fields) == 0:
@@ -84,47 +61,88 @@ def enter_move(move):
     # checks the input, and updates the board according to the user's decision.
     print(move)
 
-    if move < 4:
-        row_1[move-1]='O'
+    if move==1:
+        board[0][0]='O'
         update_empty_fields(move)
         
-    elif move > 3 and move < 7:
-        row_2[move-4]='O'
+    if move==2:
+        board[0][1]='O'
         update_empty_fields(move)
-
-    elif move > 6:
-        row_3[move-7]='O'
+        
+    if move==3:
+        board[0][2]='O'
         update_empty_fields(move)
+        
+    if move==4:
+        board[1][0]='O'
+        update_empty_fields(move)
+        
+    if move==6:
+        board[1][2]='O'
+        update_empty_fields(move)
+        
+    if move==7:
+        board[2][0]='O'
+        update_empty_fields(move)
+        
+    if move==8:
+        board[2][1]='O'
+        update_empty_fields(move)
+        
+    if move==9:
+        board[2][2]='O'
+        update_empty_fields(move)
+    
 
-    print(display_board(row_1,row_2,row_3))
+    print(display_board(board))
     
 def computer_move():
     # The function enter and draws computer's random move
-    move=randrange(1,10,1)
+    move=randrange(0,10,1)
     print('The computer plays ', move)
     if move not in empty_fields:
-        move=randrange(1,9,1)
+        move=randrange(1,10,1)
         computer_move()
 
-    elif move < 4:
-        row_1[move-1]='X'
+    if move==1:
+        board[0][0]='X'
         update_empty_fields(move)
         
-    elif move > 3 and move < 7:
-        row_2[move-4]='X'
+    if move==2:
+        board[0][1]='X'
+        update_empty_fields(move)
+        
+    if move==3:
+        board[0][2]='X'
+        update_empty_fields(move)
+        
+    if move==4:
+        board[1][0]='X'
+        update_empty_fields(move)
+        
+    if move==6:
+        board[1][2]='X'
+        update_empty_fields(move)
+        
+    if move==7:
+        board[2][0]='X'
+        update_empty_fields(move)
+        
+    if move==8:
+        board[2][1]='X'
+        update_empty_fields(move)
+        
+    if move==9:
+        board[2][2]='X'
         update_empty_fields(move)
 
-    elif move > 6:
-        row_3[move-7]='X'
-        update_empty_fields(move)
-
-    print(display_board(row_1,row_2,row_3))
+    print(display_board(board))
 
 
 
 ###############MAIN########################
 
-print(display_board(row_1,row_2,row_3)) #initial board display
+print(display_board(board)) #initial board display
 
 while empty_fields != []:
 
@@ -135,13 +153,13 @@ while empty_fields != []:
         continue
 
     enter_move(move)
-    if victory_for(row_1,row_2,row_3,'O') == True:
+    if victory_for(board,'O') == True:
         print('!!!!! Congratulations you win !!!!!')
         break
 
 
     computer_move()
-    if victory_for(row_1,row_2,row_3,'X') == True:
+    if victory_for(board,'X') == True:
         print('!!!!! The computer wins, good try!!!!!')
         break
 
