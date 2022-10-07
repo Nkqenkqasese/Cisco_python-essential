@@ -47,17 +47,49 @@ def update_empty_fields(move):
         break 
     del empty_fields[j]
 
+def victory_for(row_1,row_2,row_3,sign):
+    # The function analyzes the board's status in order to check if 
+    # the player using 'O's or 'X's has won the game
+
+    if row_1==[sign,sign,sign]: #test if 1=2=3
+        return True
+
+    elif row_2==[sign,sign,sign]: #test if 4=5=6
+        return True
+
+    elif row_3==[sign,sign,sign]: #test if 7=8=9
+        return True
+
+    elif row_1[0] == row_2[0] and row_1[0] == row_3[0]:
+        return True
+    
+    elif row_1[1] == row_2[1] and row_1[1] == row_3[1]:
+        return True
+    
+    elif row_1[2] == row_2[2] and row_1[2] == row_3[2]:
+        return True
+        
+
+    elif row_1[0] == row_3[2] or row_1[2] == row_3[0]:
+        return True
+
+    elif len(empty_fields) == 0:
+        return True
+    else:
+        print('Game is not over !')
+        return False
+
 def enter_move(move):
     # The function accepts the board's current status, asks the user about their move, 
     # checks the input, and updates the board according to the user's decision.
     print(move)
 
     if move < 4:
-        row_1[move-1]='0'
+        row_1[move-1]='O'
         update_empty_fields(move)
         
     elif move > 3 and move < 7:
-        row_2[move-4]='0'
+        row_2[move-4]='O'
         update_empty_fields(move)
 
     elif move > 6:
@@ -89,26 +121,34 @@ def computer_move():
     print(display_board(row_1,row_2,row_3))
 
 
-#def victory_for(board, sign):
-    # The function analyzes the board's status in order to check if 
-    # the player using 'O's or 'X's has won the game
-    
-
 
 ###############MAIN########################
-
 
 print(display_board(row_1,row_2,row_3)) #initial board display
 
 while empty_fields != []:
 
-  move=int(input('Please Enter a valid move'))
+    move=int(input('Please Enter a valid move'))
 
-  if move not in empty_fields:
-    print('Impossible move ')
-    continue
+    if move not in empty_fields:
+        print('Impossible move ')
+        continue
 
-  enter_move(move)
+    enter_move(move)
+    if victory_for(row_1,row_2,row_3,'O') == True:
+        print('!!!!! Congratulations you win !!!!!')
+        break
 
-  computer_move()
+
+    computer_move()
+    if victory_for(row_1,row_2,row_3,'X') == True:
+        print('!!!!! The computer wins, good try!!!!!')
+        break
+
+    if empty_fields == []:
+         print('Good game, this is a tie')
+         break
+
+
+
 
