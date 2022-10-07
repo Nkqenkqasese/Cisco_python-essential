@@ -51,10 +51,6 @@ def enter_move(move):
     # The function accepts the board's current status, asks the user about their move, 
     # checks the input, and updates the board according to the user's decision.
     print(move)
-    if move not in empty_fields:
-        print('impossible move')
-        move = input('Enter a valid move') 
-        enter_move(move) #ne fonctionne pas
 
     if move < 4:
         row_1[move-1]='0'
@@ -72,7 +68,7 @@ def enter_move(move):
     
 def computer_move():
     # The function enter and draws computer's random move
-    move=randrange(1,9,1)
+    move=randrange(1,10,1)
     print('The computer plays ', move)
     if move not in empty_fields:
         move=randrange(1,9,1)
@@ -100,10 +96,17 @@ def computer_move():
 
 
 ###############MAIN########################
-print(display_board(row_1,row_2,row_3)) #initial board display
-for i in range(4):
 
-  move=int(input('Enter your move'))
+
+print(display_board(row_1,row_2,row_3)) #initial board display
+
+while empty_fields != []:
+
+  move=int(input('Please Enter a valid move'))
+
+  if move not in empty_fields:
+    print('Impossible move ')
+    continue
 
   enter_move(move)
 
